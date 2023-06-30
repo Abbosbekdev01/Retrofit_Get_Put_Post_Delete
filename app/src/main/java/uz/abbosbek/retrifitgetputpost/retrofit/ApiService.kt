@@ -22,5 +22,5 @@ interface ApiService {
     suspend fun updateToDo(@Path("id") id:Int, @Body myPostToDoRequest: MyPostToDoRequest):MyPostToDoResponse
 
     @DELETE("plan/{id}/")
-    suspend fun deleteToDo(@Path ("id") id: Int):Int
+    suspend fun deleteToDo(@Path ("id") id: Int)
 }

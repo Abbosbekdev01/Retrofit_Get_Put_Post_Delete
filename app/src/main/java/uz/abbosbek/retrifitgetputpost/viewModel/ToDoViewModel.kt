@@ -15,7 +15,7 @@ import uz.abbosbek.retrifitgetputpost.utils.Resource
 import uz.abbosbek.retrifitgetputpost.utils.Status
 import java.lang.Exception
 
-class ToDoViewModel(val toDoRepository: ToDoRepository) : ViewModel() {
+class ToDoViewModel(private val toDoRepository: ToDoRepository) : ViewModel() {
 
     private val liveData = MutableLiveData<Resource<List<MyToDo>>>()
 
@@ -81,24 +81,17 @@ class ToDoViewModel(val toDoRepository: ToDoRepository) : ViewModel() {
 
         return liveDataUpdate
     }
-
-    private val deleteLiveData = MutableLiveData<Resource<Int>>()
-    fun deleteToDo(id: Int): MutableLiveData<Resource<Int>>{
+    fun deleteToDo(id: Int){
         viewModelScope.launch {
-            deleteLiveData.postValue(Resource.loading("Loading delete "))
             try {
                 coroutineScope {
-                    val response = async {
+                    val response = launch {
                         toDoRepository.deleteToDo(id)
-                    }.await()
-                    deleteLiveData.postValue(Resource.success(response))
+                    }
                     getAllToDo()
                 }
-            } catch (e: Exception) {
-                deleteLiveData.postValue(Resource.error(e.message))
+            } catch (_: Exception) {
             }
         }
-
-        return deleteLiveData
     }
 }

@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity(), ToDoAllAdapter.RvClick {
         binding.rv.adapter = toDoAllAdapter
 
         toDoViewModel.getAllToDo()
-
             .observe(this) {
                 when (it.status) {
                     Status.LOADING -> {
@@ -67,6 +66,11 @@ class MainActivity : AppCompatActivity(), ToDoAllAdapter.RvClick {
                     }
                 }
             }
+        //todo: Ma'lumot qo'shilganda shu funksiya orqali ko'rish mumkun swipe qilib
+        binding.swipeRefresh.setOnRefreshListener {
+            binding.swipeRefresh.isRefreshing = false
+            toDoViewModel.getAllToDo()
+        }
 
         binding.btnAdd.setOnClickListener {
             val dialog = AlertDialog.Builder(this).create()
@@ -139,10 +143,9 @@ class MainActivity : AppCompatActivity(), ToDoAllAdapter.RvClick {
     private fun editToDo(myToDo: MyToDo) {
         val dialog = AlertDialog.Builder(this).create()
         val itemDialog = ItemDialogBinding.inflate(layoutInflater)
-        dialog.setView(itemDialog.root)
         itemDialog.apply {
-            edtAbout.setText(myToDo.matn)
             edtTitle.setText(myToDo.sarlavha)
+            edtAbout.setText(myToDo.matn)
             edtDeadline.setText(myToDo.oxirgi_muddat)
 
             when (myToDo.holat) {
@@ -189,12 +192,11 @@ class MainActivity : AppCompatActivity(), ToDoAllAdapter.RvClick {
                     }
             }
         }
+        dialog.setView(itemDialog.root)
         dialog.show()
     }
 
     private fun deleteToDo(myToDo: MyToDo){
-        toDoViewModel.deleteToDo(myToDo.id).observe(this){
-
-        }
+        toDoViewModel.deleteToDo(myToDo.id)
     }
 }

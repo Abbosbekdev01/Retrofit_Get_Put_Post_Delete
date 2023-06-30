@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'uz.abbosbek.retrifitgetputpost'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "uz.abbosbek.retrifitgetputpost"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -59,4 +59,9 @@ dependencies {
 //    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+
+    //todo:SwipeRefresh
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+    
 }
